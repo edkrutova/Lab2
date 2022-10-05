@@ -1,0 +1,36 @@
+(define (problem problem1)
+    (:domain FindTreasure)
+    (:objects
+        Max - daredevil
+        Arkham Rome London Africa Istanbul Tokio - location
+        l1 l2 l3 l4 l5 l6 - path
+        monster1 - monster
+	    necklace - treasure
+	    carbine - gun
+    )
+(:init
+      (pathhere Rome l1)
+	  (pathhere Arkham l1)
+	  (pathhere Arkham l2)
+	  (pathhere Tokio l2)
+	  (pathhere Arkham l3)
+	  (pathhere London l3)
+	  (pathhere Istanbul l4)
+	  (pathhere Tokio l4)
+	  (pathhere London l5)
+	  (pathhere Africa l5)
+	  (pathhere Africa l6)
+	  (pathhere Istanbul l6)
+	  (at Max Arkham)
+	  (in carbine Arkham)
+	  (treasureIsHere necklace Rome)
+	  (monsterIsHere Tokio)
+	  (monsterIsAlive monster1 Tokio)
+	  (treasureNotFind necklace)
+	  (hasnogun)
+	  )
+
+    (:goal
+        (and (at Max Arkham) (treasureIsHere necklace Istanbul))
+    )
+)

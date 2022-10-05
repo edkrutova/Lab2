@@ -1,0 +1,47 @@
+(define (domain FindTreasure)
+    (:requirements :strips :adl)
+    (:types
+        treasure path location daredevil monster gun supermonster - type
+    )
+(:predicates
+        (treasureNotFind ?tr - treasure)
+	    (treasureIsHere ?tr - treasure ?loc - location)
+        (pathhere ?loc - location ?p - path)
+        (monsterIsHere ?loc - location)
+	    (superMonsterIsHere ?loc - location)
+	    (at ?x - daredevil ?loc - location)
+	    (in ?x - gun ?loc - location)
+	    (monsterIsAlive ?mon - monster ?loc - location)
+	    (hasnogun)
+    )
+(:action Go
+        :parameters(?x - location ?y - location ?p - path)
+        :precondition(and (at Max ?x) (not (= ?x ?y)) (pathhere ?x ?p) (pathhere ?y ?p) (not(superMonsterIsHere ?y)) (not(monsterIsHere ?x)))
+        :effect(and (not(at Max ?x)) (at Max ?y))
+    )
+(:action FindGun
+        :parameters(?x - location ?y - gun)
+        :precondition(and (at Max ?x) (in ?y ?x) (hasnogun)) 
+        :effect(and (not(in ?y ?x)) (not(hasnogun)))
+    )
+(:action StartAFight
+        :parameters(?x - location ?m - monster)
+        :precondition(and (at Max ?x) (monsterIsHere ?x) (not(hasnogun)))
+        :effect(and(not(monsterIsAlive ?m ?x)) (not(monsterIsHere ?x)))
+    )
+(:action FindTreasure
+        :parameters(?x - location ?y - treasure)
+        :precondition(and (at Max ?x) (not(monsterIsHere ?x)) (treasureIsHere ?y ?x))
+        :effect(and(not(treasureNotFind ?y)) (not(treasureIsHere ?y ?x)))
+    )
+(:action PutTreasure
+        :parameters(?x - location ?y - treasure)
+        :precondition(and (at Max ?x) (not(monsterIsHere ?x)) (not(treasureNotFind ?y)))
+        :effect(treasureIsHere ?y ?x)
+    )
+(:action RunAway
+        :parameters(?x - location ?y - location ?z - location ?p1 - path ?p2 - path)
+        :precondition(and (at Max ?x) (superMonsterIsHere ?y) (pathhere ?x ?p1) (pathhere ?y ?p1) (pathhere ?y ?p2) (pathhere ?z ?p2))
+        :effect(and (not(at Max ?x)) (at Max ?z))
+    )
+)
